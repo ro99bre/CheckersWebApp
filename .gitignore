@@ -6,6 +6,10 @@ target
 /.settings
 /RUNNING_PID
 
+# IDEA
+.idea
+.idea_modules
+
 # VS Code
 .vscode
 .metals
