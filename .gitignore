@@ -1,9 +1,15 @@
 logs
 target
 /.bsp
-/.idea
-/.idea_modules
 /.classpath
 /.project
 /.settings
 /RUNNING_PID
+
+# VS Code
+.vscode
+.metals
+.bloop
+.ammonite
+*.code-workspace
+metals.sbt
