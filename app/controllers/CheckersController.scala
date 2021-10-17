@@ -4,21 +4,35 @@ import javax.inject._
 import play.api._
 import play.api.mvc._
 
+import com.google.inject.Guice
+import de.htwg.se.checkers.CheckersModule
+import de.htwg.se.checkers.control.ControllerComponent.ControllerTrait
+
 /**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
+ * Routes:
+ *   /              Prints out Welcome Screen/Index
+ *   /newGame       Starts a new Game
+ *   /printGame     Prints the current Game Board
+*/
+
 @Singleton
 class CheckersController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
 
-  /**
-   * Create an Action to render an HTML page.
-   *
-   * The configuration in the `routes` file means that this method
-   * will be called when the application receives a `GET` request with
-   * a path of `/`.
-   */
-  def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index())
-  }
+    val injector = Guice.createInjector(new CheckersModule)
+    val controller = injector.getInstance(classOf[ControllerTrait])
+
+    controller.createGame()
+
+    def index() = Action { implicit request: Request[AnyContent] =>
+        Ok(views.html.index())
+    }
+
+    def newGame() = Action { implicit request: Request[AnyContent] =>
+        controller.createGame()
+        Ok(controller.gameToString)
+    }
+
+    def printGame() = Action { implicit request: Request[AnyContent] =>
+        Ok(controller.gameToString)
+    }
 }
