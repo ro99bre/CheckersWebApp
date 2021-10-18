@@ -56,13 +56,13 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
         Ok(controller.gameToString)
     }
 
-    def save() = Action { implicit request: Request[AnyContent] =>
-        controller.save()
+    def save(fileName: String) = Action { implicit request: Request[AnyContent] =>
+        controller.save("games/" + fileName + ".json")
         Ok(controller.gameToString)
     }
 
-    def load() = Action { implicit request: Request[AnyContent] =>
-        controller.load()
+    def load(fileName: String) = Action { implicit request: Request[AnyContent] =>
+        controller.load("games/" + fileName + ".json")
         Ok(controller.gameToString)
     }
 }
