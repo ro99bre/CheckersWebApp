@@ -13,6 +13,11 @@ import de.htwg.se.checkers.control.ControllerComponent.ControllerTrait
  *   /              Prints out Welcome Screen/Index
  *   /newGame       Starts a new Game
  *   /printGame     Prints the current Game Board
+ *   /move(sx,sy,dx,dy) Moves Object on Game Board (e.g. /move?sx=0&sy=2&dx=1&dy=2)
+ *   /undo          Undo last move
+ *   /redo          Redo last move
+ *   /save          Saves Game
+ *   /load          Loads old Game
 */
 
 @Singleton
@@ -33,6 +38,31 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
     }
 
     def printGame() = Action { implicit request: Request[AnyContent] =>
+        Ok(controller.gameToString)
+    }
+
+    def move(sx: Int, sy: Int, dx: Int, dy: Int) = Action { implicit request: Request[AnyContent] =>
+        controller.move(sx, sy, dx, dy)
+        Ok(controller.gameToString)
+    }
+
+    def undo() = Action { implicit request: Request[AnyContent] =>
+        controller.undo()
+        Ok(controller.gameToString)
+    }
+
+    def redo() = Action { implicit request: Request[AnyContent] =>
+        controller.redo()
+        Ok(controller.gameToString)
+    }
+
+    def save() = Action { implicit request: Request[AnyContent] =>
+        controller.save()
+        Ok(controller.gameToString)
+    }
+
+    def load() = Action { implicit request: Request[AnyContent] =>
+        controller.load()
         Ok(controller.gameToString)
     }
 }
