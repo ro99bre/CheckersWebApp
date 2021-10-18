@@ -13,11 +13,11 @@ import de.htwg.se.checkers.control.ControllerComponent.ControllerTrait
  *   /              Prints out Welcome Screen/Index
  *   /newGame       Starts a new Game
  *   /printGame     Prints the current Game Board
- *   /move(sx,sy,dx,dy) Moves Object on Game Board (e.g. /move?sx=0&sy=2&dx=1&dy=2)
- *   /undo          Undo last move
- *   /redo          Redo last move
- *   /save          Saves Game
- *   /load          Loads old Game
+ *   /move          Moves a Piece
+ *   /undo          Retrieves the last move
+ *   /redo          Redoes the retrived last move
+ *   /save          Saves Game to a File on the Server
+ *   /load          Loads Game from a File on the Server
 */
 
 @Singleton
