@@ -12,6 +12,7 @@ GET     /undo                         controllers.CheckersController.undo()
 GET     /redo                         controllers.CheckersController.redo()
 GET     /save/$fileName<[A-Za-z0-9]+> controllers.CheckersController.save(fileName)
 GET     /load/$fileName<[A-Za-z0-9]+> controllers.CheckersController.load(fileName)
+GET     /tutorial                             controllers.CheckersController.tutorial()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

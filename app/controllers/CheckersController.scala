@@ -65,4 +65,8 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
         controller.load("games/" + fileName + ".json")
         Ok(controller.gameToString)
     }
+
+    def tutorial() = Action { implicit request: Request[AnyContent] =>
+        Ok(views.html.tutorial())
+    }
 }
