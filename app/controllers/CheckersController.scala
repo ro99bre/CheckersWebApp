@@ -66,6 +66,10 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
         Ok(controller.gameToString)
     }
 
+    def startscreen() = Action { implicit request: Request[AnyContent] =>
+        Ok(views.html.startscreen())
+    }
+    
     def tutorial() = Action { implicit request: Request[AnyContent] =>
         Ok(views.html.tutorial())
     }
