@@ -10,6 +10,10 @@
           width: 95%;
           height: 95%;
         }
+        .navigationicon {
+          width: 50px;
+          height: 50px;
+        }
         table{
           border: 1px solid black;
         }
@@ -36,6 +40,7 @@
       </script>
     </head>
     <body>
+        
         <div style="width: 50%; margin: 0px auto;">
             <div class="row">
               <div class="column" style="float: left;">
@@ -71,11 +76,14 @@
                   }
                 </table>
               </div>
-              <div style="vertical-align:top;">
-                <form action="http://localhost:9000/save">
+              <div>
+                <a href="http://localhost:9000/undo"><img  src="@routes.Assets.versioned("images/game/arrowBack.png")" class="navigationicon" alt="Back Arrow"/></a><a  href="http://localhost:9000/redo"><img src="@routes.Assets.versioned("images/game/arrowForward.png")" class="navigationicon" alt="Forward Arrow"/></a>
+              </div>
+              <div>
+                <form action="http://localhost:9000/save" float: left;>
                   <input type="text" id="save" name="fileName"><input type="submit" id="save" value="SAVE">
                 </form>
-                <form action="http://localhost:9000/load">
+                <form action="http://localhost:9000/load" float: right;>
                   <input type="text" id="load" name="fileName"><input type="submit" id="load" value="LOAD">
                 </form>
               </div>
