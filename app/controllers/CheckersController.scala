@@ -34,7 +34,6 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
 
     def newGame() = Action { implicit request: Request[AnyContent] =>
         controller.createGame()
-        //Ok(controller.gameToString)
         Ok(views.html.gameBoard(controller.getGame))
     }
 
@@ -44,28 +43,27 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
 
     def move(sx: Int, sy: Int, dx: Int, dy: Int) = Action { implicit request: Request[AnyContent] =>
         controller.move(sx, sy, dx, dy)
-        //Ok(controller.gameToString)
         Ok(views.html.gameBoard(controller.getGame))
     }
 
     def undo() = Action { implicit request: Request[AnyContent] =>
         controller.undo()
-        Ok(controller.gameToString)
+        Ok(views.html.gameBoard(controller.getGame))
     }
 
     def redo() = Action { implicit request: Request[AnyContent] =>
         controller.redo()
-        Ok(controller.gameToString)
+        Ok(views.html.gameBoard(controller.getGame))
     }
 
     def save(fileName: String) = Action { implicit request: Request[AnyContent] =>
         controller.save("games/" + fileName + ".json")
-        Ok(controller.gameToString)
+        Ok(views.html.gameBoard(controller.getGame))
     }
 
     def load(fileName: String) = Action { implicit request: Request[AnyContent] =>
         controller.load("games/" + fileName + ".json")
-        Ok(controller.gameToString)
+        Ok(views.html.gameBoard(controller.getGame))
     }
 
     def startscreen() = Action { implicit request: Request[AnyContent] =>
