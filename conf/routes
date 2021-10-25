@@ -14,6 +14,7 @@ GET     /save/$fileName<[A-Za-z0-9]+> controllers.CheckersController.save(fileNa
 GET     /load/$fileName<[A-Za-z0-9]+> controllers.CheckersController.load(fileName)
 GET     /startscreen                  controllers.CheckersController.startscreen()
 GET     /tutorial                     controllers.CheckersController.tutorial()  
+GET     /board                        controllers.CheckersController.game()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
