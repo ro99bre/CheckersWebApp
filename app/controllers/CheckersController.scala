@@ -34,7 +34,8 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
 
     def newGame() = Action { implicit request: Request[AnyContent] =>
         controller.createGame()
-        Ok(controller.gameToString)
+        //Ok(controller.gameToString)
+        Ok(views.html.gameBoard(controller.getGame))
     }
 
     def printGame() = Action { implicit request: Request[AnyContent] =>
@@ -43,7 +44,8 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
 
     def move(sx: Int, sy: Int, dx: Int, dy: Int) = Action { implicit request: Request[AnyContent] =>
         controller.move(sx, sy, dx, dy)
-        Ok(controller.gameToString)
+        //Ok(controller.gameToString)
+        Ok(views.html.gameBoard(controller.getGame))
     }
 
     def undo() = Action { implicit request: Request[AnyContent] =>
@@ -72,5 +74,9 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
     
     def tutorial() = Action { implicit request: Request[AnyContent] =>
         Ok(views.html.tutorial())
+    }
+
+    def game() = Action { implicit request: Request[AnyContent] =>
+        Ok(views.html.gameBoard(controller.getGame))
     }
 }
