@@ -5,23 +5,17 @@
   <html>
     <head>
       <title>Checkers Tutorial</title>
-      <style>
-      .center{
-        text-align: center;
-        list-style-position: inside;
-      }
-      </style>
-    
+      <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/checkers.css")' />
     </head>
     <body>
       <a id="tutorial">
         <h1 style="text-align: center;font-family: Arial; font-size: 90px;">TUTORIAL</h1>       
       </a>
       <ol class="center">
-        <li style="color:green;font-size:30px">
+        <li class="tutorial-list-element">
           Determine who will have the first turn. <br>
           <p>
-            <span style="color: black; font-size: 25px">
+            <span class="tutorial-text-block">
             Before you set up the board, you need to choose who goes first. <br>
             You can do this based on who won the last game, <br>
             a coin toss, or by any other method. The person who will go first will take the black checkers and the other will take the white. <br>
@@ -29,10 +23,10 @@
             </span>
           </p>
         </li>
-        <li style="color:green;font-size:30px">
+        <li class="tutorial-list-element">
           Game Setup<br>
           <pre>
-            <span style="color: black; font-size: 25px">
+            <span class="tutorial-text-block">
               Sit across from your opponent and place the board between you and your opponent.
               The board is made up of 64 alternating dark and light squares which appear in 8 rows of 8. 
               There are 32 light squares and 32 dark squares.Place the board so that each player has a light-colored square
@@ -40,11 +34,11 @@
             </span>
           </pre>
         </li>
-        <li style="color:green;font-size:30px">
+        <li class="tutorial-list-element">
           Checkers Rules and Gameplay<br>
           <img src="@routes.Assets.versioned("images/tutorial/Play-Checkers-Step-14-Version-6.360p.gif")"/>
           <pre>
-            <span style="color: black; font-size: 25px">
+            <span class="tutorial-text-block">
               Sit across from your opponent and place the board between you and your opponent.
               The board is made up of 64 alternating dark and light squares which appear in 8 rows of 8. 
               There are 32 light squares and 32 dark squares. Place the board so that each player has 
@@ -52,9 +46,13 @@
             </span>
           </pre>
         </li>
-        <li style="color:green;font-size:30px">
+        <li class="tutorial-list-element">
           READ MORE HERE<br>
-          <a href="https://www.wikihow.com/Play-Checkers" id="githubbutton">HOW TO PLAY CHECKERS</a>     
+          <pre>
+            <span class="tutorial-text-block">
+              <a href="https://www.wikihow.com/Play-Checkers" id="githubbutton">HOW TO PLAY CHECKERS</a>     
+            </span>
+          </pre>
         </li>
       </ol> 
     </body>
