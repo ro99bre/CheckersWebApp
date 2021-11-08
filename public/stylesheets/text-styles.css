@@ -1,50 +1,63 @@
 .site-heading{
     text-align: center;
     font-family: Arial;
-    font-size: 90px;
+    font-size: 40px;
 }
 .paragraph-heading{
     color: green;
-    font-size: 30px;
+    font-size: 18px;
     text-align: center;
     list-style-position: inside;
 }
 .paragraph-text{
     color: black;
-    font-size: 25px;
+    font-size: 16px;
+    text-align: center;
 }
 .paragraph-text-bold{
     font-weight: bold;
 }
 
 @media (min-width:576px) {
+    .site-heading{
+        font-size: 50px;
+    }
     .paragraph-heading{
-        font-size: 20px;
+        font-size: 18px;
     }
     .paragraph-text{
-        font-size: 25px;
+        font-size: 16px;
     }
 }
 
 @media (min-width:768px) {
+    .site-heading{
+        font-size: 60px;
+    }
     .paragraph-heading{
-        font-size: 30px;
+        font-size: 22px;
     }
     .paragraph-text{
-        font-size: 25px;
+        font-size: 20px;
     }
 }
 
 @media (min-width:992px) {
+    .site-heading{
+        font-size: 70px;
+    }
     .paragraph-heading{
-        font-size: 30px;
+        font-size: 26px;
     }
     .paragraph-text{
-        font-size: 25px;
+        font-size: 23px;
     }
 }
 
 @media (min-width:1200px) {
+    .site-heading{
+        font-size: 80px;
+    }
     .paragraph-heading{
         font-size: 30px;
     }
