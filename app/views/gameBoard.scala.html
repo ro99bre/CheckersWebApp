@@ -4,25 +4,13 @@
   <!DOCTYPE html>
   <html>
     <head>
-      <title>Checkers Game Board</title>
-      <style>
-        .icon {
-          width: 95%;
-          height: 95%;
-        }
-        .navigationicon {
-          width: 50px;
-          height: 50px;
-        }
-        table{
-          border: 1px solid black;
-        }
-        table.no-spacing {
-          border-spacing:0;
-          border-collapse: collapse;
-        }
-        body {line-height: 0;}
-      </style>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!--Stylesheets-->
+      <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/bootstrap.css")">
+      <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/gameBoard-styles.css")">
+
       <script> 
         var counter = 0;
         var sx, sy, dx, dy;
@@ -40,55 +28,46 @@
       </script>
     </head>
     <body>
-        
-        <div style="width: 50%; margin: 0px auto;">
-            <div class="row">
-              <div class="column" style="float: left;">
-                <table class="no-spacing" cellspacing="0">
-                  @for(row <- 0 until 8) {
-                  <tr>
-                    @for(col <- 0 until 8) {
-                        <td>
-                          <form action="javascript:move(this)">
-                            <input type="hidden" name="row" id="row" value="@row">
-                            <input type="hidden" name="col" id="col" value="@col">
-                            @if(board.cell(row, col).color.toString() == "white") {
-                                    <img src="@routes.Assets.versioned("images/game/white.jpg")" class="icon" style="float:left" alt="white Tile"/>
-                            } else if (board.cell(row, col).color.toString() == "black") {
-                                @if(!board.cell(row,col).toString.contains("None")){
-                                    @if(board.cell(row,col).toString.contains("black,Queen")){
-                                      <img src="@routes.Assets.versioned("images/game/blackblackqueen.jpg")" class="icon" style="float:left" alt="black Tile black Queen"/>
-                                    } else if (board.cell(row,col).toString.contains("black,notQueen")){
-                                      <img src="@routes.Assets.versioned("images/game/blackblack.jpg")" class="icon" style="float:left" alt="black Tile black Piece"/>
-                                    } else if (board.cell(row,col).toString.contains("white,Queen")){
-                                      <img src="@routes.Assets.versioned("images/game/blackwhitequeen.jpg")" class="icon" style="float:left" alt="black Tile white Queen"/>
-                                    } else if (board.cell(row,col).toString.contains("white,notQueen")){
-                                      <img src="@routes.Assets.versioned("images/game/blackwhite.jpg")" class="icon" style="float:left" alt="black Tile white Piece"/>
-                                    }
-                                } else {
-                                    <img src="@routes.Assets.versioned("images/game/black.jpg")" class="icon" style="float:left" alt="black Tile"/>
-                                }
-                            }
-                          </form>
-                        </td>
-                    }
-                  </tr>
-                  }
-                </table>
-              </div>
-              <div>
-                <a href="http://localhost:9000/undo"><img  src="@routes.Assets.versioned("images/game/arrowBack.png")" class="navigationicon" alt="Back Arrow"/></a><a  href="http://localhost:9000/redo"><img src="@routes.Assets.versioned("images/game/arrowForward.png")" class="navigationicon" alt="Forward Arrow"/></a>
-              </div>
-              <div>
-                <form action="http://localhost:9000/save" float: left;>
-                  <input type="text" id="save" name="fileName"><input type="submit" id="save" value="SAVE">
-                </form>
-                <form action="http://localhost:9000/load" float: right;>
-                  <input type="text" id="load" name="fileName"><input type="submit" id="load" value="LOAD">
-                </form>
-              </div>
-            </div>
+      <!--Main Content-->
+      <div class="container"></div>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <table class="GameBoard">
+              @for(row <- 0 until 8) {
+              <tr>
+                @for(col <- 0 until 8) {
+                  <td>
+                    <form action="javascript:move(this)">
+                      <input type="hidden" name="row" id="row" value="@row">
+                      <input type="hidden" name="col" id="col" value="@col">
+                      @if(board.cell(row, col).color.toString() == "white") {
+                              <img src="@routes.Assets.versioned("images/game/white.jpg")" class="field" alt="white Tile"/>
+                      } else if (board.cell(row, col).color.toString() == "black") {
+                          @if(!board.cell(row,col).toString.contains("None")){
+                              @if(board.cell(row,col).toString.contains("black,Queen")){
+                                <img src="@routes.Assets.versioned("images/game/blackblackqueen.jpg")" class="field" alt="black Tile black Queen"/>
+                              } else if (board.cell(row,col).toString.contains("black,notQueen")){
+                                <img src="@routes.Assets.versioned("images/game/blackblack.jpg")" class="field" alt="black Tile black Piece"/>
+                              } else if (board.cell(row,col).toString.contains("white,Queen")){
+                                <img src="@routes.Assets.versioned("images/game/blackwhitequeen.jpg")" class="field" alt="black Tile white Queen"/>
+                              } else if (board.cell(row,col).toString.contains("white,notQueen")){
+                                <img src="@routes.Assets.versioned("images/game/blackwhite.jpg")" class="field" alt="black Tile white Piece"/>
+                              }
+                          } else {
+                              <img src="@routes.Assets.versioned("images/game/black.jpg")" class="field" alt="black Tile"/>
+                          }
+                      }
+                    </form>
+                  </td>
+                }
+              </tr>
+              }
+            </table>
+          </div>
+          <div class="col-md-2"></div>
         </div>
+      </div>
     </body>
   </html>
 }
