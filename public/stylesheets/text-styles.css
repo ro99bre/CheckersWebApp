@@ -1,0 +1,54 @@
+.site-heading{
+    text-align: center;
+    font-family: Arial;
+    font-size: 90px;
+}
+.paragraph-heading{
+    color: green;
+    font-size: 30px;
+    text-align: center;
+    list-style-position: inside;
+}
+.paragraph-text{
+    color: black;
+    font-size: 25px;
+}
+.paragraph-text-bold{
+    font-weight: bold;
+}
+
+@media (min-width:576px) {
+    .paragraph-heading{
+        font-size: 20px;
+    }
+    .paragraph-text{
+        font-size: 25px;
+    }
+}
+
+@media (min-width:768px) {
+    .paragraph-heading{
+        font-size: 30px;
+    }
+    .paragraph-text{
+        font-size: 25px;
+    }
+}
+
+@media (min-width:992px) {
+    .paragraph-heading{
+        font-size: 30px;
+    }
+    .paragraph-text{
+        font-size: 25px;
+    }
+}
+
+@media (min-width:1200px) {
+    .paragraph-heading{
+        font-size: 30px;
+    }
+    .paragraph-text{
+        font-size: 25px;
+    }
+}
