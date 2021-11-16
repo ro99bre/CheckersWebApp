@@ -47,7 +47,12 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
     }
 
     def undo() = Action { implicit request: Request[AnyContent] =>
-        controller.undo()
+        try {
+            controller.undo()
+        }
+        catch {
+            case _: Throwable => println("Cannot undo further.")
+        }
         Ok(views.html.gameBoard(controller.getGame))
     }
 
@@ -62,7 +67,12 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
     }
 
     def load(fileName: String) = Action { implicit request: Request[AnyContent] =>
-        controller.load("games/" + fileName + ".json")
+        try {
+            controller.load("games/" + fileName + ".json")
+        }
+        catch {
+            case _: Throwable => println("Can not load game / Loading file does not exist.")
+        }
         Ok(views.html.gameBoard(controller.getGame))
     }
 
