@@ -11,22 +11,8 @@
       <!--Stylesheets-->
       <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/bootstrap.css")">
       <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/gameBoard-styles.css")">
-      <!--Skript to calculate Positions-->
-      <script> 
-        var counter = 0;
-        var sx, sy, dx, dy;
-        function move(row, col) {  
-          document.getElementById("greetings").innerHTML = counter;
-          if (counter % 2 == 0) {
-            sx = row;
-            sy = col;
-          } else {
-            dx = row;
-            dy = col;
-          }
-          counter++;
-        }
-      </script>
+      <!--Script to move, undo, redo, save & load-->
+      <script src="@routes.Assets.versioned("javascripts/checkers.js")" async></script>
     </head>
     <body>
       <!--Navigation Bar-->
@@ -53,10 +39,11 @@
           <div class="col-md-8">
             <div class="btn-toolbar" role="toolbar">
               <div class="d-grid gap-2 d-md-block col-12 mx-auto" role="group">
-                <button type="button" class="btn btn-danger">Undo</button>
-                <button type="button" class="btn btn-secondary">Redo</button>
-                <button type="button" class="btn btn-info">Load</button>
-                <button type="button" class="btn btn-success">Save</button>
+                <button type="button" onclick="undo();" class="btn btn-danger">Undo</button>
+                <button type="button" onclick="redo();" class="btn btn-secondary">Redo</button>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#loadModal">Load</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#saveModal">Save</button>
+                <label id="turn label">Select Source Tile</label>
               </div>
             </div>
           </div>
@@ -73,27 +60,23 @@
               <tr>
                 @for(col <- 0 until 8) {
                   <td>
-                    <form action="javascript:move(this)">
-                      <input type="hidden" name="row" id="row" value="@row">
-                      <input type="hidden" name="col" id="col" value="@col">
-                      @if(board.cell(row, col).color.toString() == "white") {
-                              <img src="@routes.Assets.versioned("images/game/white.jpg")" class="field" alt="white Tile"/>
-                      } else if (board.cell(row, col).color.toString() == "black") {
-                          @if(!board.cell(row,col).toString.contains("None")){
-                              @if(board.cell(row,col).toString.contains("black,Queen")){
-                                <img src="@routes.Assets.versioned("images/game/blackblackqueen.jpg")" class="field" alt="black Tile black Queen"/>
-                              } else if (board.cell(row,col).toString.contains("black,notQueen")){
-                                <img src="@routes.Assets.versioned("images/game/blackblack.jpg")" class="field" alt="black Tile black Piece"/>
-                              } else if (board.cell(row,col).toString.contains("white,Queen")){
-                                <img src="@routes.Assets.versioned("images/game/blackwhitequeen.jpg")" class="field" alt="black Tile white Queen"/>
-                              } else if (board.cell(row,col).toString.contains("white,notQueen")){
-                                <img src="@routes.Assets.versioned("images/game/blackwhite.jpg")" class="field" alt="black Tile white Piece"/>
-                              }
-                          } else {
-                              <img src="@routes.Assets.versioned("images/game/black.jpg")" class="field" alt="black Tile"/>
-                          }
-                      }
-                    </form>
+                    @if(board.cell(row, col).color.toString() == "white") {
+                            <img src="@routes.Assets.versioned("images/game/white.jpg")" onclick="move(@row,@col);" class="field" alt="white Tile"/>
+                    } else if (board.cell(row, col).color.toString() == "black") {
+                        @if(!board.cell(row,col).toString.contains("None")){
+                            @if(board.cell(row,col).toString.contains("black,isQueen")){
+                              <img src="@routes.Assets.versioned("images/game/blackblackqueen.jpg")" onclick="move(@row,@col);" class="field" alt="black Tile black Queen"/>
+                            } else if (board.cell(row,col).toString.contains("black,notQueen")){
+                              <img src="@routes.Assets.versioned("images/game/blackblack.jpg")" onclick="move(@row,@col);" class="field" alt="black Tile black Piece"/>
+                            } else if (board.cell(row,col).toString.contains("white,isQueen")){
+                              <img src="@routes.Assets.versioned("images/game/blackwhitequeen.jpg")" onclick="move(@row,@col);" class="field" alt="black Tile white Queen"/>
+                            } else if (board.cell(row,col).toString.contains("white,notQueen")){
+                              <img src="@routes.Assets.versioned("images/game/blackwhite.jpg")" onclick="move(@row,@col);" class="field" alt="black Tile white Piece"/>
+                            }
+                        } else {
+                            <img src="@routes.Assets.versioned("images/game/black.jpg")" onclick="move(@row,@col);" class="field" alt="black Tile"/>
+                        }
+                    }
                   </td>
                 }
               </tr>
@@ -103,6 +86,54 @@
           <div class="col-md-2"></div>
         </div>
       </div>
+      <!--Modal for saving-->
+      <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="saveModalLabel">Save Game</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Enter Filename</p>
+              <label for="savename">Save:</label>
+              <input type="text" id="savename" name="savename"><br><br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" onclick="save(savename.value);" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Modal for loading-->
+      <div class="modal" id="loadModal" tabindex="-1" role="dialog" aria-labelledby="loadModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Load Game</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Enter Filename</p>
+              <label for="loadname">Load:</label>
+              <input type="text" id="loadname" name="loadname"><br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" onclick="load(loadname.value);" class="btn btn-primary">Load changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Load JQuery, Popping.js & JS Plugin for several components (modal, btn toolbar, etc.)-->
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
   </html>
 }
