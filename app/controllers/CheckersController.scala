@@ -41,6 +41,10 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
         Ok(controller.gameToString)
     }
 
+    def jsonGame() = Action { implicit request: Request[AnyContent] =>
+        Ok(controller.gameToJson)
+    }
+
     def move(sx: Int, sy: Int, dx: Int, dy: Int) = Action { implicit request: Request[AnyContent] =>
         controller.move(sx, sy, dx, dy)
         Ok(views.html.gameBoard(controller.getGame))

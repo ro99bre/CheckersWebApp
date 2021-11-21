@@ -7,6 +7,7 @@
 GET     /                             controllers.CheckersController.index()
 GET     /newGame                      controllers.CheckersController.newGame()
 GET     /printGame                    controllers.CheckersController.printGame()
+GET     /jsonGame                     controllers.CheckersController.jsonGame()
 GET     /move/sx=$sx<[0-7]>/sy=$sy<[0-7]>/dx=$dx<[0-7]>/dy=$dy<[0-7]> controllers.CheckersController.move(sx: Int, sy: Int, dx: Int, dy: Int)
 GET     /undo                         controllers.CheckersController.undo()
 GET     /redo                         controllers.CheckersController.redo()
