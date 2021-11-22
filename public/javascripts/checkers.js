@@ -207,6 +207,22 @@ function createClickListener(){
             })
         }
     }
+
+    $("#undo-button").click(function() {
+        undo();
+    })
+
+    $("#redo-button").click(function() {
+        redo();
+    })
+
+    $("#save-button").click(function() {
+        save(savename.value);
+    })
+
+    $("#load-button").click(function() {
+        load(loadname.value);
+    })
 }
 
 function initGame() {
