@@ -114,7 +114,6 @@ function save(fileName) {
             showConnectionErrorBanner();
         }
     });
-    //Box schließen
 }
 
 function load(fileName) {
@@ -135,7 +134,6 @@ function load(fileName) {
             showConnectionErrorBanner();
         }
     });
-    //Box schließen
 }
 
 class GameBoard {
@@ -218,10 +216,12 @@ function createClickListener(){
 
     $("#save-button").click(function() {
         save(savename.value);
+        $("#saveModal").modal('toggle');
     })
 
     $("#load-button").click(function() {
         load(loadname.value);
+        $("#loadModal").modal('toggle');
     })
 }
 
