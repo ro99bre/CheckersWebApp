@@ -1,3 +1,9 @@
+function showConnectionErrorBanner() {
+    var errorBanner = $("<div class=\"alert alert-danger\" role=\"alert\"></div>")
+        .text("Oops! Updating the Game failed! Please try to reload the page");
+    $("nav").after(errorBanner);
+}
+
 //Source tiles of move operation
 let sx = -1;
 let sy = -1;
@@ -22,6 +28,9 @@ function move(y, x) {
                 sx = -1;
                 sy = -1;
                 document.getElementById("turn label").innerHTML = "Select Source Tile";
+            },
+            error: function (){
+                showConnectionErrorBanner();
             }
         });
     }
@@ -124,6 +133,9 @@ function initGame() {
             gameBoard.fill(jsonData);
             printGameBoard();
             createClickListener();
+        },
+        error: function (){
+            showConnectionErrorBanner();
         }
     });
 }
