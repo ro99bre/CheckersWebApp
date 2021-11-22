@@ -37,19 +37,63 @@ function move(y, x) {
 }
 
 function undo() {
-    window.location.href = "http://localhost:9000/undo";
+    $.ajax({
+        method: "GET",
+        url: "/undo",
+        dataType: "json",
+
+        success: function (result) {
+            updateGameBoard(result);
+        },
+        error: function (){
+            showConnectionErrorBanner();
+        }
+    });
 }
 
 function redo() {
-    window.location.href = "http://localhost:9000/redo";
+    $.ajax({
+        method: "GET",
+        url: "/redo",
+        dataType: "json",
+
+        success: function (result) {
+            updateGameBoard(result);
+        },
+        error: function (){
+            showConnectionErrorBanner();
+        }
+    });
 }
 
 function save(fileName) {
-    window.location.href = "http://localhost:9000/save?fileName=" + fileName;
+    $.ajax({
+        method: "GET",
+        url: "/save?fileName=" + fileName,
+        dataType: "json",
+
+        success: function (result) {
+            updateGameBoard(result);
+        },
+        error: function (){
+            showConnectionErrorBanner();
+        }
+    });
 }
 
 function load(fileName) {
-    window.location.href = "http://localhost:9000/load?fileName=" + fileName;
+    $.ajax({
+        method: "GET",
+        url: "/load?fileName=" + fileName,
+        dataType: "json",
+
+        success: function (result) {
+            updateGameBoard(result);
+        },
+        error: function (){
+            showConnectionErrorBanner();
+        }
+    });
 }
 
 class GameBoard {
