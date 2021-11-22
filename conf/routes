@@ -5,17 +5,21 @@
 
 # An example controller showing a sample home page
 GET     /                             controllers.CheckersController.index()
-GET     /newGame                      controllers.CheckersController.newGame()
 GET     /printGame                    controllers.CheckersController.printGame()
+
+# API
 GET     /jsonGame                     controllers.CheckersController.jsonGame()
 GET     /move/sx=$sx<[0-7]>/sy=$sy<[0-7]>/dx=$dx<[0-7]>/dy=$dy<[0-7]> controllers.CheckersController.move(sx: Int, sy: Int, dx: Int, dy: Int)
 GET     /undo                         controllers.CheckersController.undo()
 GET     /redo                         controllers.CheckersController.redo()
 GET     /save                         controllers.CheckersController.save(fileName: String)
 GET     /load                         controllers.CheckersController.load(fileName)
+
+# Screens
 GET     /startscreen                  controllers.CheckersController.startscreen()
 GET     /tutorial                     controllers.CheckersController.tutorial()  
-GET     /board                        controllers.CheckersController.game()
+GET     /newGame                      controllers.CheckersController.newGame()
+GET     /currentGame                  controllers.CheckersController.game()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

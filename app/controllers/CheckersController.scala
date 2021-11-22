@@ -8,18 +8,6 @@ import com.google.inject.Guice
 import de.htwg.se.checkers.CheckersModule
 import de.htwg.se.checkers.control.ControllerComponent.ControllerTrait
 
-/**
- * Routes:
- *   /              Prints out Welcome Screen/Index
- *   /newGame       Starts a new Game
- *   /printGame     Prints the current Game Board
- *   /move          Moves a Piece
- *   /undo          Retrieves the last move
- *   /redo          Redoes the retrived last move
- *   /save          Saves Game
- *   /load          Loads old Game
-*/
-
 @Singleton
 class CheckersController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
 
@@ -30,11 +18,6 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
 
     def index() = Action { implicit request: Request[AnyContent] =>
         Ok(views.html.index())
-    }
-
-    def newGame() = Action { implicit request: Request[AnyContent] =>
-        controller.createGame()
-        Ok(views.html.gameBoard(controller.getGame))
     }
 
     def printGame() = Action { implicit request: Request[AnyContent] =>
@@ -102,7 +85,12 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
         Ok(views.html.tutorial())
     }
 
+    def newGame() = Action { implicit request: Request[AnyContent] =>
+        controller.createGame()
+        Ok(views.html.gameBoard())
+    }
+
     def game() = Action { implicit request: Request[AnyContent] =>
-        Ok(views.html.gameBoard(controller.getGame))
+        Ok(views.html.gameBoard())
     }
 }
