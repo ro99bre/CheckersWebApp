@@ -53,45 +53,45 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
     def undo() = Action { implicit request: Request[AnyContent] =>
         try {
             controller.undo()
+            Ok(controller.gameToJson)
         }
         catch {
-            case _: Throwable => println("Can not load game / Loading file does not exist.")
+            case _: Throwable => println("Can not undo last move")
+            Ok("Undo Failed")
         }
-
-        Ok(controller.gameToJson)
     }
 
     def redo() = Action { implicit request: Request[AnyContent] =>
         try {
             controller.redo()
+            Ok(controller.gameToJson)
         }
         catch {
-            case _: Throwable => println("Can not load game / Loading file does not exist.")
+            case _: Throwable => println("Can not redo last move")
+            Ok("Redo Failed")
         }
-
-        Ok(controller.gameToJson)
     }
 
     def save(fileName: String) = Action { implicit request: Request[AnyContent] =>
         try {
             controller.save("games/" + fileName + ".json")
+            Ok(controller.gameToJson)
         }
         catch {
             case _: Throwable => println("Can not save game")
+            Ok("Save Failed")
         }
-
-        Ok(controller.gameToJson)
     }
 
     def load(fileName: String) = Action { implicit request: Request[AnyContent] =>
         try {
             controller.load("games/" + fileName + ".json")
+            Ok(controller.gameToJson)
         }
         catch {
             case _: Throwable => println("Can not load game / Loading file does not exist.")
+            Ok("Load Failed")
         }
-
-        Ok(controller.gameToJson)
     }
 
     def startscreen() = Action { implicit request: Request[AnyContent] =>

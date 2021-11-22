@@ -36,6 +36,28 @@ function move(y, x) {
     }
 }
 
+function showGameErrorBanner(message) {
+    var errorBanner = $("<div class=\"alert alert-danger\" role=\"alert\"></div>")
+        .text(message);
+    $("nav").after(errorBanner);
+
+    setTimeout(
+        function() {
+            $(errorBanner).remove();
+        }, 3000);
+}
+
+function showGameSuccessBanner(message) {
+    var successBanner = $("<div class=\"alert alert-success\" role=\"alert\"></div>")
+        .text(message);
+    $("nav").after(successBanner);
+
+    setTimeout(
+        function() {
+            $(successBanner).remove();
+        }, 3000);
+}
+
 function undo() {
     $.ajax({
         method: "GET",
@@ -43,7 +65,11 @@ function undo() {
         dataType: "json",
 
         success: function (result) {
-            updateGameBoard(result);
+            if(result === "Failed"){
+                showGameErrorBanner("Failed to undo last step!")
+            } else {
+                updateGameBoard(result);
+            }
         },
         error: function (){
             showConnectionErrorBanner();
@@ -58,7 +84,11 @@ function redo() {
         dataType: "json",
 
         success: function (result) {
-            updateGameBoard(result);
+            if(result === "Failed"){
+                showGameErrorBanner("Failed to redo last step!")
+            } else {
+                updateGameBoard(result);
+            }
         },
         error: function (){
             showConnectionErrorBanner();
@@ -73,12 +103,18 @@ function save(fileName) {
         dataType: "json",
 
         success: function (result) {
-            updateGameBoard(result);
+            if(result !== "Save Failed"){
+                updateGameBoard(result);
+                showGameSuccessBanner("Successfully saved Game " + fileName);
+            } else {
+                showGameErrorBanner("Failed to save game!")
+            }
         },
         error: function (){
             showConnectionErrorBanner();
         }
     });
+    //Box schließen
 }
 
 function load(fileName) {
@@ -88,12 +124,18 @@ function load(fileName) {
         dataType: "json",
 
         success: function (result) {
-            updateGameBoard(result);
+            if(result !== "Load Failed"){
+                updateGameBoard(result);
+                showGameSuccessBanner("Successfully loaded Game " + fileName);
+            } else {
+                showGameErrorBanner("Failed to load game!")
+            }
         },
         error: function (){
             showConnectionErrorBanner();
         }
     });
+    //Box schließen
 }
 
 class GameBoard {
