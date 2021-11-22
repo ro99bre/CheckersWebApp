@@ -47,7 +47,8 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
 
     def move(sx: Int, sy: Int, dx: Int, dy: Int) = Action { implicit request: Request[AnyContent] =>
         controller.move(sx, sy, dx, dy)
-        Ok(views.html.gameBoard(controller.getGame))
+        //Ok(views.html.gameBoard(controller.getGame))
+        Ok(controller.gameToJson)
     }
 
     def undo() = Action { implicit request: Request[AnyContent] =>
