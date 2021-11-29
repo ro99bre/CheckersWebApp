@@ -8,6 +8,10 @@ import com.google.inject.Guice
 import de.htwg.se.checkers.CheckersModule
 import de.htwg.se.checkers.control.ControllerComponent.ControllerTrait
 
+import akka.actor.ActorSystem
+import akka.stream.Materializer
+import akka.actor._
+
 @Singleton
 class CheckersController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
 
@@ -92,5 +96,33 @@ class CheckersController @Inject()(val controllerComponents: ControllerComponent
 
     def game() = Action { implicit request: Request[AnyContent] =>
         Ok(views.html.gameBoard())
+    }
+
+    def socket = WebSocket.accept[String, String] { request =>
+        ActorFlow.actorRef { out =>
+            println("Connect received")
+            CheckersWebSocketActorFactory.create(out)
+        }
+    }
+        
+    object CheckersWebSocketActorFactory {
+        def create(out: ActorRef) = {
+        Props(new CheckersWebSocketActor(out))
+        }
+    }
+
+    class CheckersWebSocketActor(out: ActorRef) extends Actor{
+        listenTo(gameController)
+
+        def receive = {
+        case msg: String =>
+            out ! (gameController.toJson.toString)
+            println("Sent Json to Client"+ msg)
+        }
+
+        def sendJsonToClient = {
+        println("Received event from Controller")
+        out ! (gameController.toJson.toString)
+        }
     }
 }

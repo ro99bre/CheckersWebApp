@@ -15,6 +15,8 @@ GET     /redo                         controllers.CheckersController.redo()
 GET     /save                         controllers.CheckersController.save(fileName: String)
 GET     /load                         controllers.CheckersController.load(fileName)
 
+GET     /websocket                    controllers.CheckersController.socket()
+
 # Screens
 GET     /startscreen                  controllers.CheckersController.startscreen()
 GET     /tutorial                     controllers.CheckersController.tutorial()  
