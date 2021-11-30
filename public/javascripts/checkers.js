@@ -262,17 +262,12 @@ function connectWebSocket() {
         if (typeof e.data === "string") {
             let json = JSON.parse(e.data);
             updateGameBoard(json)
-            //let cells = json.grid.cells;
-            //grid.fill(cells);
-            //updateGrid(grid);
-            //registerClickListener();
-            createClickListener();
         }
 
     };
 }
 
 $( document ).ready(function() {
+    connectWebSocket();    
     initGame();
-    connectWebSocket();
 });
