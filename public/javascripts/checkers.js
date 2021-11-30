@@ -159,7 +159,7 @@ class GameBoard {
 
                 //Check if Piece is a Queen
                 if(cells[jsonEntry].piece.queen === "isQueen") {
-                    this.game[cells[jsonEntry].y][json[jsonEntry].x][2] = true;
+                    this.game[cells[jsonEntry].y][cells[jsonEntry].x][2] = true;
                 }
             }
         }
