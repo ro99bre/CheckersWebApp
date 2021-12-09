@@ -9,6 +9,7 @@ let sx = -1;
 let sy = -1;
 
 function move(y, x) {
+    console.log(y.toString() + x.toString())
     //Check if source tile has been selected
     if (sx === -1 && sy === -1) {
         sx = x;
@@ -25,6 +26,7 @@ function move(y, x) {
 
             success: function (result) {
                 updateGameBoard(result);
+                //Vor erneutem Rendering warten, bis Daten vollständig
                 sx = -1;
                 sy = -1;
                 document.getElementById("turn label").innerHTML = "Select Source Tile";
@@ -137,7 +139,7 @@ function load(fileName) {
 }
 
 class GameBoard {
-    constructor() {
+    constructor(jsonData) {
         this.game = [];
         for(var i = 0; i < 8; i++) {
             this.game[i] = [];
@@ -145,13 +147,18 @@ class GameBoard {
                 this.game[i][j] = Array(3);
             }
         }
+        console.log("newGameBoard")
+        this.fill(jsonData)
+
     }
 
     fill(json) {
+        console.log(json)
         let cells = json.game.board.cells;
         for(let jsonEntry=0; jsonEntry < cells.length; jsonEntry++) {
             //Set Tile Color
             this.game[cells[jsonEntry].y][cells[jsonEntry].x][0] = cells[jsonEntry].color;
+            console.log(this.game[cells[jsonEntry].y][cells[jsonEntry].x][0])
 
             //Check if Piece is located on Tile and it is not kicked
             if(cells[jsonEntry].piece.piececolor !== "None" && cells[jsonEntry].piece.kicked !== "isKicked") {
@@ -163,10 +170,12 @@ class GameBoard {
                 }
             }
         }
+        console.log("Finished filling")
+        console.log(this.game)
     }
 }
 
-let gameBoard = new GameBoard()
+//let gameBoard = new GameBoard()
 
 //function printGameBoard(){
 //    for(let row=0; row < 8; row++){
@@ -192,8 +201,8 @@ let gameBoard = new GameBoard()
 //}
 
 function updateGameBoard(jsonData) {
-    gameBoard = new GameBoard();
-    gameBoard.fill(jsonData);
+    //gameBoard = new GameBoard(jsonData);
+    //gameBoard.fill(jsonData);
 }
 
 function createClickListener(){
@@ -224,7 +233,11 @@ function initGame() {
         dataType: "json",
 
         success: function (jsonData) {
-            gameBoard.fill(jsonData);
+            console.log("success")
+            //gameBoard.fill(jsonData);
+            createVue(jsonData);
+            console.log("Created Vue")
+            console.log(gameBoard.game[1][1][0]);
             createClickListener();
         },
         error: function (){
@@ -259,37 +272,85 @@ function connectWebSocket() {
 }
 
 $( document ).ready(function() {
-    connectWebSocket();    
+    connectWebSocket();
+    console.log("connectWebSocket")
     initGame();
+    console.log("InitGame")
+    //console.log(gameBoard.game[1][1][0])
+});
 
-    new Vue({
+function createVue(jsonData) {
+    var vm = new Vue({
         el: "#game-board",
+        //data: {
+        //    gameBoard: new GameBoard()
+        //},
+        data: function() {
+            return {
+                gameBoard: new GameBoard(jsonData)
+            }
+        },
         methods: {
             getTile (row, col) {
                 path = 'assets/images/game/'
                 //Non Empty Cell
-                if(gameBoard.game[row][col][1] !== undefined) {
+                if(this.gameBoard.game[row][col][1] !== undefined) {
                     //Queen Piece
-                    if(gameBoard.game[row][col][2] === true) {
-                        return path + gameBoard.game[row][col][0] + gameBoard.game[row][col][1] + 'queen' + '.jpg'
+                    if(this.gameBoard.game[row][col][2] === true) {
+                        variable = path + this.gameBoard.game[row][col][0] + this.gameBoard.game[row][col][1] + 'queen' + '.jpg'
+                        console.log("Queen:" + variable)
+                        return variable
                     //Normal Piece
                     } else {
-                        return path + gameBoard.game[row][col][0] + gameBoard.game[row][col][1] +'.jpg'
+                        variable = path + this.gameBoard.game[row][col][0] + this.gameBoard.game[row][col][1] +'.jpg'
+                        console.log("Normal:" + variable)
+                        return variable
                     }
                 //Empty Cell
                 } else {
-                    return path + gameBoard.game[row][col][0] + '.jpg'
+                    variable = path + this.gameBoard.game[row][col][0] + '.jpg'
+                    console.log("Empty:" + "Row:" + row + "Col:" + col + " " + variable)
+                    return variable
                 }
             },
 
             getPosition (x, y) {
-                //return x.toString() + " " + y.toString()
-                return gameBoard.game[x][y][0]
+                return x.toString() + " " + y.toString()
+                //return gameBoard.game[x][y][0]
             },
 
-            moveTile (row, col) {
-                move(row, col)
+            moveTile (col, row) {
+                console.log(row.toString() + col.toString())
+                //Check if source tile has been selected
+                if (sx === -1 && sy === -1) {
+                    sx = row;
+                    sy = col;
+                    document.getElementById("turn label").innerHTML = "Select Destination Tile";
+                    //$("#turn label").html("Select Destination Tile")
+            
+                //Complete move operation
+                } else {
+                    console.log(sx + " " + sy)
+                    $.ajax({
+                        method: "GET",
+                        url: "/move/sx="+sx+"/sy="+sy+"/dx="+row+"/dy="+col,
+                        dataType: "json",
+            
+                        success: function (result) {
+                            //updateGameBoard(result);
+                            vm.gameBoard = new GameBoard(result)
+                            //this.gameBoard.fill(result)
+                            sx = -1;
+                            sy = -1;
+                            document.getElementById("turn label").innerHTML = "Select Source Tile";
+                        },
+                        error: function (){
+                            showConnectionErrorBanner();
+                        }
+                    });
+                }
+            
             }
         }
     })
-});
+}

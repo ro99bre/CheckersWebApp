@@ -67,7 +67,9 @@
               <tr>
                 @for(col <- 0 until 8) {
                   <td>
-                    <img class="field" id="field-@row-@col"/>
+                    <img v-on:click="moveTile(@row, @col)" :src="getTile(@row, @col)" class="field" id="field-@row-@col"/>
+                    <!--<div>Tile {{ getPosition(@row, @col) }}</div>-->
+                    <!--<button v-on:click="moveTile(@row, @col)">Tile {{ getPosition(@row, @col) }}</button>-->
                   </td>
                 }
               </tr>
