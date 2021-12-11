@@ -93,8 +93,6 @@ let srow = -1;
 let scol = -1;
 
 function move(row, col) {
-    //console.log(row.toString() + col.toString())
-
     //Check if source tile has been selected
     if (scol === -1 && srow === -1) {
         scol = col;
@@ -241,12 +239,25 @@ var vm;
 
 function createVue(jsonData) {
     vm = new Vue({
-        el: "#game-board",
+        el: "checkers-board",
         data: function () {
             return {
-                gameBoard: new GameBoard(jsonData)
+                gameBoard: new GameBoard(jsonData),
+                rows: 8,
+                cols: 8
             }
         },
+        //template: '<button>{{ getTile(1, 1) }}</button>',
+        template: `
+            <table class="GameBoard">
+                <tr v-for="row in rows">
+                    <td v-for="col in cols">
+                        <img v-on:click="moveTile(row-1,col-1)" v-bind:src="getTile(row-1,col-1)" class="field" v-bind:id="'field-' + row + '-' + col"/>
+                    </td>
+                </tr>
+            </table>
+        `,
+
         methods: {
             getPosition(x, y) {
                 return x.toString() + " " + y.toString();
@@ -270,8 +281,9 @@ function createVue(jsonData) {
                 }
             },
 
-            moveTile(col, row) {
-                move(col, row);
+            moveTile(row, col) {
+                //console.log(row.toString() + col.toString())
+                move(row, col);
             }
 
         }
