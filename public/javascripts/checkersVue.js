@@ -110,10 +110,13 @@ function move(row, col) {
             dataType: "json",
 
             success: function (result) {
-                updateGameBoard(result);
-                scol = -1;
-                srow = -1;
-                document.getElementById("turn label").innerHTML = "Select Source Tile";
+                if (result === "Failed") {
+                    showGameErrorBanner("Failed to move piece!")
+                } else {
+                    scol = -1;
+                    srow = -1;
+                    document.getElementById("turn label").innerHTML = "Select Source Tile";
+                }
             },
             error: function () {
                 showConnectionErrorBanner();
@@ -131,8 +134,6 @@ function undo() {
         success: function (result) {
             if (result === "Failed") {
                 showGameErrorBanner("Failed to undo last step!")
-            } else {
-                updateGameBoard(result);
             }
         },
         error: function () {
@@ -150,8 +151,6 @@ function redo() {
         success: function (result) {
             if (result === "Failed") {
                 showGameErrorBanner("Failed to redo last step!")
-            } else {
-                updateGameBoard(result);
             }
         },
         error: function () {
@@ -168,7 +167,6 @@ function save(fileName) {
 
         success: function (result) {
             if (result !== "Save Failed") {
-                updateGameBoard(result);
                 showGameSuccessBanner("Successfully saved Game " + fileName);
             } else {
                 showGameErrorBanner("Failed to save game!")
@@ -188,7 +186,6 @@ function load(fileName) {
 
         success: function (result) {
             if (result !== "Load Failed") {
-                updateGameBoard(result);
                 showGameSuccessBanner("Successfully loaded Game " + fileName);
             } else {
                 showGameErrorBanner("Failed to load game!")
