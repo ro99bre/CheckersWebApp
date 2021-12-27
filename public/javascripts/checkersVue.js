@@ -1,3 +1,6 @@
+//let websocketAddress = "ws://localhost:9000";
+let websocketAddress = "wss://webapplications-group06-ws2122.herokuapp.com/websocket";
+
 //Banner Messages
 function showConnectionErrorBanner() {
     var errorBanner = $("<div class=\"alert alert-danger\" role=\"alert\"></div>")
@@ -63,7 +66,7 @@ class GameBoard {
 
 
 function connectWebSocket() {
-    var websocket = new WebSocket("ws://localhost:9000/websocket");
+    var websocket = new WebSocket(websocketAddress);
     websocket.setTimeout;
 
     websocket.onopen = function (event) {
